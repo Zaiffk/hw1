@@ -159,6 +159,7 @@ export default class ToDoModel {
      * Finds and then removes the current list.
      */
     removeCurrentList() {
+        document.getElementsByClassName("modal")[0  ].innerHTML.replace("display: none", "display: block"); //where i left off
         let indexOfList = -1;
         for (let i = 0; (i < this.toDoLists.length) && (indexOfList < 0); i++) {
             if (this.toDoLists[i].id === this.currentList.id) {

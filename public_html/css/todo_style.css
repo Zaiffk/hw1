@@ -70,3 +70,14 @@
 .todo_button:hover {
     background-color: var(--swatch-contrast);
 }
+
+.modal {
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: var(--swatch-primary);
+    color: rgb(233,237,240);
+    font: 10pt;
+}
