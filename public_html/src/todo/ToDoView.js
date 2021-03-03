@@ -62,7 +62,7 @@ export default class ToDoView {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                + "<div class='task-col'>" + listItem.description + "</div>"
+                                + "<div class='task-col' contenteditable = 'true'>" + listItem.description + "</div>"
                                 + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
                                 + "<div class='status-col'>" + listItem.status + "</div>"
                                 + "<div class='list-controls-col'>"
@@ -73,6 +73,51 @@ export default class ToDoView {
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
             itemsListDiv.innerHTML += listItemElement;
+            for (let i = 1; i < document.getElementsByClassName("task-col").length; i++) {
+                document.getElementsByClassName("task-col")[i].onmouseleave = function() {
+                    list.items[i - 1].setDescription(document.getElementsByClassName("task-col")[i].innerHTML);
+                }
+            }
+            for (let i = 1; i < document.getElementsByClassName("due-date-col").length; i++) {
+                document.getElementsByClassName("due-date-col")[i].onmousedown = function() {
+                    if (!list.items[i-1].getDueDate().includes("<form>")) {
+                        list.items[i-1].setDueDate("<form><input id = 'date"+i+"' value = " + list.items[i-1].getDueDate() +" type='date'></form>");
+                        document.getElementsByClassName("due-date-col")[i].innerHTML = list.items[i-1].dueDate;
+                    }
+                }
+            }
+            for (let i = 1; i < document.getElementsByClassName("due-date-col").length; i++) {
+                document.getElementsByClassName("due-date-col")[i].onchange = function() {
+                    if (document.getElementById("date"+i) != null) {
+                        document.getElementsByClassName("due-date-col")[i].innerHTML = document.getElementById("date"+i).value;
+                        list.items[i - 1].setDueDate(document.getElementsByClassName("due-date-col")[i].innerHTML);
+                    }else{
+                        list.items[i - 1].setDueDate(document.getElementsByClassName("due-date-col")[i].innerHTML);
+                    }
+                }
+            }
+            for (let i = 1; i < document.getElementsByClassName("status-col").length; i++) {
+                document.getElementsByClassName("status-col")[i].onmousedown = function() {
+                    if (!list.items[i-1].getStatus().includes("<form>")) {
+                        if (list.items[i-1].getStatus() == "complete") {
+                            list.items[i-1].setStatus("<form><select id = 'status"+i+"'> <option value='complete'>complete</option><option value='incomplete'>incomplete</option></select></form>");
+                        }else{
+                            list.items[i-1].setStatus("<form><select id = 'status"+i+"'> <option value='incomplete'>incomplete</option><option value='complete'>complete</option></select></form>");
+                        }
+                        document.getElementsByClassName("status-col")[i].innerHTML = list.items[i-1].status;
+                    }
+                }
+            }
+            for (let i = 1; i < document.getElementsByClassName("status-col").length; i++) {
+                document.getElementsByClassName("status-col")[i].onchange = function() {
+                    if (document.getElementById("status"+i) != null) {
+                        document.getElementsByClassName("status-col")[i].innerHTML = document.getElementById("status"+i).value;
+                        list.items[i - 1].setStatus(document.getElementsByClassName("status-col")[i].innerHTML);
+                    }else{
+                        list.items[i - 1].setStatus(document.getElementsByClassName("status-col")[i].innerHTML);
+                    }
+                }
+            }
         }
     }
 

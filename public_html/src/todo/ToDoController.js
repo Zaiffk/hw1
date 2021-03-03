@@ -37,13 +37,11 @@ export default class ToDoController {
         document.getElementById("cancel-delete").onmousedown = function() {
             document.getElementById("confirmation-modal").style.display = "none";
         }
-        document.getElementsByClassName("button")[0].onmouseover = function() {
-            document.getElementsByClassName("button")[0].style.cursor = "pointer";
+        for (let i = 0; i < document.getElementsByClassName("button").length; i++) {
+            document.getElementsByClassName("button")[i].onmouseover = function() {
+                document.getElementsByClassName("button")[i].style.cursor = "pointer";
+            }
         }
-        document.getElementsByClassName("button")[1].onmouseover = function() {
-            document.getElementsByClassName("button")[1].style.cursor = "pointer";
-        }
-
 
     }
     
