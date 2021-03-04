@@ -13,7 +13,7 @@
     --swatch-text:          #e9edf0; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */ 
     --swatch-text-accent:   #ffc819; /* USED IN MOUSE-OVER SELECTION OF TEXT AND BORDERS */  
 
-    --font-primary:         'Lexend Exa', sans-serif;
+    --font-primary:         'consola', sans-serif;
 }
 
 #grid-container {
@@ -43,7 +43,7 @@
 #title-div {
     color: rgb(255,200,25);
     font-weight: bold;
-    font-size: 14pt;
+    font-size: 18pt;
 }
 
 #left-sidebar-header {

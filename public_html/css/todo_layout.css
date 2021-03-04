@@ -11,20 +11,24 @@
 #navbar {
     grid-column: 1 / span 2;
     grid-row: 1 / span 1;
+    margin-bottom: 5pt;
 }
 
 #left-sidebar {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
+    font-size: 12pt;
+    text-align: center;
 }
 
 #left-sidebar-header {
-    display: grid;
+    display: flex;
     grid-template-columns: 60% 40%;
+    font-size: 16pt;
 }
 
 #left-sidebar-header-text {
-    
+    text-align: center;
 }
 
 #left-sidebar-controls {
@@ -45,7 +49,7 @@
 }
 
 .list-item-card {
-    height: 5%;
+    height: 4%;
     display: flex;
     flex-direction: row;
 }
