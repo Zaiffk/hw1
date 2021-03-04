@@ -4,6 +4,7 @@ import ToDoList from './ToDoList.js'
 import ToDoListItem from './ToDoListItem.js'
 import jsTPS from '../common/jsTPS.js'
 import AddNewItem_Transaction from './transactions/AddNewItem_Transaction.js'
+import ToDoView from './ToDoView.js'
 
 /**
  * ToDoModel
@@ -99,7 +100,7 @@ export default class ToDoModel {
     addNewItem() {
         let newItem = new ToDoListItem(this.nextListItemId++);
         this.currentList.items.push(newItem);
-        this.view.viewList(this.currentList);
+        ToDoView.viewList(this.currentList);
         return newItem;
     }
 
@@ -134,7 +135,8 @@ export default class ToDoModel {
             this.toDoLists[0] = listToLoad;
             this.currentList = listToLoad;
             this.view.refreshLists(this.toDoLists);
-            this.view.viewList(this.currentList);
+            //this.view.viewList(this.currentList);
+            ToDoView.viewList(this.currentList);
         }
     }
 
@@ -152,7 +154,7 @@ export default class ToDoModel {
      */
     removeItem(itemToRemove) {
         this.currentList.removeItem(itemToRemove);
-        this.view.viewList(this.currentList);
+        ToDoView.viewList(this.currentList);
     }
 
     /**
@@ -167,7 +169,7 @@ export default class ToDoModel {
         }
         this.toDoLists.splice(indexOfList, 1);
         this.currentList = null;
-        this.view.clearItemsList();
+        ToDoView.clearItemsList();
         this.view.refreshLists(this.toDoLists);
     }
 

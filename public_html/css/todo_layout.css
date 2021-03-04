@@ -72,6 +72,18 @@
     width: 20%;
 }
 
+.list-item-control-up {
+    width: 20%;
+}
+
+.list-item-control-down {
+    width: 20%;
+}
+
+.list-item-control-close {
+    width: 20%;
+}
+
 .modal {
     display: none;
     position: fixed;

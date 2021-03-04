@@ -29,7 +29,7 @@ export default class ToDoView {
     }
 
     // REMOVES ALL THE LISTS FROM THE LEFT SIDEBAR
-    clearItemsList() {
+    static clearItemsList() {
         let itemsListDiv = document.getElementById("todo-list-items-div");
         // BUT FIRST WE MUST CLEAR THE WORKSPACE OF ALL CARDS BUT THE FIRST, WHICH IS THE ITEMS TABLE HEADER
         let parent = itemsListDiv;
@@ -50,13 +50,18 @@ export default class ToDoView {
         }
     }
 
+    // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES
+    setController(initController) {
+        this.controller = initController;
+    }
+
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
-    viewList(list) {
+    static viewList(list) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
         // GET RID OF ALL THE ITEMS
-        this.clearItemsList();
+        ToDoView.clearItemsList();
 
         for (let i = 0; i < list.items.length; i++) {
             // NOW BUILD ALL THE LIST ITEMS
@@ -66,9 +71,9 @@ export default class ToDoView {
                                 + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
                                 + "<div class='status-col'>" + listItem.status + "</div>"
                                 + "<div class='list-controls-col'>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
-                                + " <div class='list-item-control material-icons'>close</div>"
+                                + " <div class='list-item-control-up material-icons'>keyboard_arrow_up</div>"
+                                + " <div class='list-item-control-down material-icons'>keyboard_arrow_down</div>"
+                                + " <div class='list-item-control-close material-icons'>close</div>"
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
@@ -118,11 +123,60 @@ export default class ToDoView {
                     }
                 }
             }
+            for (let i = 1; i < document.getElementsByClassName("list-item-control-up").length; i++) {
+                document.getElementsByClassName("list-item-control-up")[i].onmousedown = function() {
+                    let temp = list.items[i-1];
+                    list.items[i-1] = list.items[i];
+                    list.items[i] = temp;
+                    let newList = list;
+                    itemsListDiv.innerHTML = "";
+                    /*for (let j = 0; j < list.items.length; j++) {
+                        listItem = list.items[j];
+                        listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
+                                        + "<div class='task-col' contenteditable = 'true'>" + listItem.description + "</div>"
+                                        + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
+                                        + "<div class='status-col'>" + listItem.status + "</div>"
+                                        + "<div class='list-controls-col'>"
+                                        + " <div class='list-item-control-up material-icons'>keyboard_arrow_up</div>"
+                                        + " <div class='list-item-control-down material-icons'>keyboard_arrow_down</div>"
+                                        + " <div class='list-item-control-close material-icons'>close</div>"
+                                        + " <div class='list-item-control'></div>"
+                                        + " <div class='list-item-control'></div>"
+                                        + "</div>";
+                        itemsListDiv.innerHTML += listItemElement;
+                    }*/
+                    ToDoView.viewList(list);
+                }
+            }
+            for (let i = 0; i < document.getElementsByClassName("list-item-control-down").length - 1; i++) {
+                document.getElementsByClassName("list-item-control-down")[i].onmousedown = function() {
+                    let temp = list.items[i+1];
+                    list.items[i+1] = list.items[i];
+                    list.items[i] = temp;
+                    ToDoView.viewList(list);
+                }
+            }
+            for (let i = 0; i < document.getElementsByClassName("list-item-control-close").length; i++) {
+                document.getElementsByClassName("list-item-control-close")[i].onmousedown = function() {
+                    list.items.splice(i, 1);
+                    ToDoView.viewList(list);
+                }
+            }
+            for (let i = 1; i < document.getElementsByClassName("list-item-control-up").length; i++) {
+                document.getElementsByClassName("list-item-control-up")[i].onmouseover = function() {
+                    document.getElementsByClassName("list-item-control-up")[i].style.cursor = "pointer";
+                }
+            }
+            for (let i = 0; i < document.getElementsByClassName("list-item-control-down").length - 1; i++) {
+                document.getElementsByClassName("list-item-control-down")[i].onmouseover = function() {
+                    document.getElementsByClassName("list-item-control-down")[i].style.cursor = "pointer";
+                }
+            }
+            for (let i = 0; i < document.getElementsByClassName("list-item-control-close").length; i++) {
+                document.getElementsByClassName("list-item-control-close")[i].onmouseover = function() {
+                    document.getElementsByClassName("list-item-control-close")[i].style.cursor = "pointer";
+                }
+            }
         }
-    }
-
-    // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES
-    setController(initController) {
-        this.controller = initController;
     }
 }

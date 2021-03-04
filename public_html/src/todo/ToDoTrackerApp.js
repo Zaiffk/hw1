@@ -11,6 +11,7 @@ export class ToDoTrackerApp {
         this.view = new ToDoView();
         this.controller = new ToDoController();
 
+        this.view.setController(this.controller);
         // THE MODEL NEEDS THE VIEW TO NOTIFY IT EVERY TIME DATA CHANGES
         this.model.setView(this.view);
 

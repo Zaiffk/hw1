@@ -42,7 +42,6 @@ export default class ToDoController {
                 document.getElementsByClassName("button")[i].style.cursor = "pointer";
             }
         }
-
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD
