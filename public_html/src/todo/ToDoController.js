@@ -1,5 +1,7 @@
 'use strict'
 
+import ToDoView from "./ToDoView.js";
+
 /**
  * ToDoController
  * 
@@ -15,24 +17,41 @@ export default class ToDoController {
 
         // SETUP ALL THE EVENT HANDLERS SINCE THEY USE THE MODEL
         document.getElementById("add-list-button").onmousedown = function() {
-            appModel.addNewList();
+            if (appModel.currentList == null) {
+                appModel.addNewList();
+            }
         }
         document.getElementById("undo-button").onmousedown = function() {
-            appModel.undo();
+            if (appModel.currentList != null) {
+                appModel.undo();
+                ToDoView.viewList(appModel.currentList, appModel);
+            }
         }
         document.getElementById("redo-button").onmousedown = function() {
-            appModel.redo();
+            if (appModel.currentList != null) {
+                appModel.redo();
+                ToDoView.viewList(appModel.currentList, appModel);
+            }
         }
         document.getElementById("delete-list-button").onmousedown = function() {
-            document.getElementById("confirmation-modal").style.display = "block";
-            //appModel.removeCurrentList();
+            if (appModel.currentList != null) {
+                document.getElementById("confirmation-modal").style.display = "block";
+                //appModel.removeCurrentList();
+            }
         }
         document.getElementById("add-item-button").onmousedown = function() {
-            appModel.addNewItemTransaction();
+            if (appModel.currentList != null) {
+                appModel.addNewItemTransaction();
+            }
+        } 
+        document.getElementById("close-list-button").onmousedown = function() {
+            appModel.currentList = null;
+            ToDoView.viewList(appModel.currentList, appModel);
         } 
         document.getElementById("confirm-delete").onmousedown = function() {
             appModel.removeCurrentList();
             document.getElementById("confirmation-modal").style.display = "none";
+            ToDoView.viewList(appModel.currentList, appModel);
         }
         document.getElementById("cancel-delete").onmousedown = function() {
             document.getElementById("confirmation-modal").style.display = "none";

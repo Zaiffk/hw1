@@ -70,6 +70,32 @@ export default class ToDoView {
         // GET RID OF ALL THE ITEMS
         ToDoView.clearItemsList();
 
+        if (list == null) {
+            document.getElementById("add-item-button").style.opacity = 0.5;
+            document.getElementById("delete-list-button").style.opacity = 0.5;
+            document.getElementById("close-list-button").style.opacity = 0.5;
+            model.tps.clearAllTransactions();
+            document.getElementById("add-list-button").style.opacity = 1;
+            return;
+        }else{
+            document.getElementById("add-item-button").style.opacity = 1;
+            document.getElementById("delete-list-button").style.opacity = 1;
+            document.getElementById("close-list-button").style.opacity = 1;
+            document.getElementById("add-list-button").style.opacity = 0.5;
+        }
+
+        if (model.tps.getUndoSize() > 0) {
+            document.getElementById("undo-button").style.opacity = 1;
+        }else{
+            document.getElementById("undo-button").style.opacity = 0.5;
+        }
+
+        if (model.tps.getRedoSize() > 0) {
+            document.getElementById("redo-button").style.opacity = 1;
+        }else{
+            document.getElementById("redo-button").style.opacity = 0.5;
+        }
+
         for (let i = 0; i < list.items.length; i++) {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
@@ -140,6 +166,9 @@ export default class ToDoView {
                     ToDoView.viewList(list, appModel);
                 }
             }
+            if (document.getElementsByClassName("list-item-control-up").length > 0) {
+                document.getElementsByClassName("list-item-control-up")[0].style.opacity = 0.5;
+            }
             for (let i = 1; i < document.getElementsByClassName("list-item-control-up").length; i++) {
                 let appModel = model;
                 document.getElementsByClassName("list-item-control-up")[i].onmousedown = function() {
@@ -186,6 +215,9 @@ export default class ToDoView {
                     document.getElementsByClassName("list-item-control-close")[i].style.cursor = "pointer";
                 }
             }
+        }
+        if (document.getElementsByClassName("list-item-control-down").length > 0) {
+            document.getElementsByClassName("list-item-control-down")[document.getElementsByClassName("list-item-control-down").length - 1].style.opacity = 0.5;
         }
     }
 }

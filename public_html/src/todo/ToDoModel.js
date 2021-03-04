@@ -27,6 +27,13 @@ export default class ToDoModel {
 
         // WE'LL USE THIS TO ASSIGN ID NUMBERS TO EVERY LIST ITEM
         this.nextListItemId = 0;
+
+        document.getElementById("add-item-button").style.opacity = 0.5;
+        document.getElementById("delete-list-button").style.opacity = 0.5;
+        document.getElementById("close-list-button").style.opacity = 0.5;
+        document.getElementById("undo-button").style.opacity = 0.5;
+        document.getElementById("redo-button").style.opacity = 0.5;
+        document.getElementById("add-list-button").style.opacity = 1;
     }
 
     /**
