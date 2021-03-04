@@ -82,6 +82,7 @@ export default class ToDoView {
             document.getElementById("delete-list-button").style.opacity = 1;
             document.getElementById("close-list-button").style.opacity = 1;
             document.getElementById("add-list-button").style.opacity = 0.5;
+            document.getElementById("todo-lists-list").firstChild.style.color = "rgb(255, 200, 25)";
         }
 
         if (model.tps.getUndoSize() > 0) {
@@ -143,6 +144,11 @@ export default class ToDoView {
                 }
             }
             for (let i = 1; i < document.getElementsByClassName("status-col").length; i++) {
+                if (document.getElementsByClassName("status-col")[i].innerHTML == "complete") {
+                    document.getElementsByClassName("status-col")[i].style.color = "rgb(142,212,248)";
+                }else if (document.getElementsByClassName("status-col")[i].innerHTML == "incomplete") {
+                    document.getElementsByClassName("status-col")[i].style.color = "rgb(255,200,25)";
+                }
                 let appModel = model;
                 document.getElementsByClassName("status-col")[i].onmousedown = function() {
                     if (!list.items[i-1].getStatus().includes("<form>")) {
