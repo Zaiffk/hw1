@@ -16,7 +16,9 @@ export default class ToDoListItem {
         this.id = initId;
         this.description = "Unknown";
         this.dueDate = new Date().toUTCString();
+        this.dateBackup = this.dueDate;
         this.status = "incomplete";
+        this.statusBackup = this.status;
     }
 
     // GETTER/SETTER METHODS
@@ -38,7 +40,12 @@ export default class ToDoListItem {
     }
 
     setDueDate(initDueDate) {
-        this.dueDate = initDueDate;
+        if (this.dueDate.includes("<form>")) {
+            this.dueDate = initDueDate;
+        }else{
+            this.dateBackup = this.dueDate;
+            this.dueDate = initDueDate;
+        }
     }
 
     getStatus() {
@@ -46,6 +53,11 @@ export default class ToDoListItem {
     }
 
     setStatus(initStatus) {
-        this.status = initStatus;
+        if (this.status.includes("<select>")) {
+            this.status = initStatus;
+        }else{
+            this.statusBackup = this.status;
+            this.status = initStatus;
+        }
     }
 }

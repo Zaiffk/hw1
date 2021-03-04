@@ -77,6 +77,10 @@ export default class ToDoModel {
         this.tps.addTransaction(transaction);
     }
 
+    addNewTransaction(transaction) {
+        this.tps.addTransaction(transaction);
+    }
+
     /**
      * addNewList
      * 
@@ -100,7 +104,7 @@ export default class ToDoModel {
     addNewItem() {
         let newItem = new ToDoListItem(this.nextListItemId++);
         this.currentList.items.push(newItem);
-        ToDoView.viewList(this.currentList);
+        ToDoView.viewList(this.currentList, this);
         return newItem;
     }
 
@@ -136,7 +140,7 @@ export default class ToDoModel {
             this.currentList = listToLoad;
             this.view.refreshLists(this.toDoLists);
             //this.view.viewList(this.currentList);
-            ToDoView.viewList(this.currentList);
+            ToDoView.viewList(this.currentList, this);
         }
     }
 
@@ -154,7 +158,7 @@ export default class ToDoModel {
      */
     removeItem(itemToRemove) {
         this.currentList.removeItem(itemToRemove);
-        ToDoView.viewList(this.currentList);
+        ToDoView.viewList(this.currentList, this);
     }
 
     /**

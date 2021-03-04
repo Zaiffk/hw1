@@ -1,5 +1,12 @@
 'use strict'
 
+import MoveDownItem_Transaction from "./transactions/MoveDownItem_Transaction.js";
+import MoveUpItem_Transaction from "./transactions/MoveUpItem_Transaction.js";
+import CloseItem_Transaction from "./transactions/CloseItem_Transaction.js";
+import EditText_Transaction from "./transactions/EditText_Transaction.js";
+import EditDate_Transaction from "./transactions/EditDate_Transaction.js";
+import EditStatus_Transaction from "./transactions/EditStatus_Transaction.js";
+
 /**
  * ToDoView
  * 
@@ -56,7 +63,7 @@ export default class ToDoView {
     }
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
-    static viewList(list) {
+    static viewList(list, model) {
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
@@ -79,29 +86,38 @@ export default class ToDoView {
                                 + "</div>";
             itemsListDiv.innerHTML += listItemElement;
             for (let i = 1; i < document.getElementsByClassName("task-col").length; i++) {
+                let appModel = model;
                 document.getElementsByClassName("task-col")[i].onmouseleave = function() {
-                    list.items[i - 1].setDescription(document.getElementsByClassName("task-col")[i].innerHTML);
+                    //list.items[i - 1].setDescription(document.getElementsByClassName("task-col")[i].innerHTML);
+                    if (list.items[i-1].description != document.getElementsByClassName("task-col")[i].innerHTML) {
+                        let transaction = new EditText_Transaction(appModel, list, list.items[i-1], document.getElementsByClassName("task-col")[i].innerHTML);
+                        appModel.addNewTransaction(transaction);
+                        ToDoView.viewList(list, model);
+                    }
                 }
             }
             for (let i = 1; i < document.getElementsByClassName("due-date-col").length; i++) {
+                let appModel = model;
                 document.getElementsByClassName("due-date-col")[i].onmousedown = function() {
                     if (!list.items[i-1].getDueDate().includes("<form>")) {
                         list.items[i-1].setDueDate("<form><input id = 'date"+i+"' value = " + list.items[i-1].getDueDate() +" type='date'></form>");
-                        document.getElementsByClassName("due-date-col")[i].innerHTML = list.items[i-1].dueDate;
+                        //document.getElementsByClassName("due-date-col")[i].innerHTML = list.items[i-1].dueDate;
+                        ToDoView.viewList(list, appModel);
                     }
                 }
             }
             for (let i = 1; i < document.getElementsByClassName("due-date-col").length; i++) {
+                let appModel = model;
                 document.getElementsByClassName("due-date-col")[i].onchange = function() {
-                    if (document.getElementById("date"+i) != null) {
-                        document.getElementsByClassName("due-date-col")[i].innerHTML = document.getElementById("date"+i).value;
-                        list.items[i - 1].setDueDate(document.getElementsByClassName("due-date-col")[i].innerHTML);
-                    }else{
-                        list.items[i - 1].setDueDate(document.getElementsByClassName("due-date-col")[i].innerHTML);
-                    }
+                    document.getElementsByClassName("due-date-col")[i].innerHTML = document.getElementById("date"+i).value;
+                    list.items[i - 1].dueDate = document.getElementsByClassName("due-date-col")[i].innerHTML;
+                    let transaction = new EditDate_Transaction(appModel, list, list.items[i-1],document.getElementsByClassName("due-date-col")[i].innerHTML) ;
+                    appModel.addNewTransaction(transaction);
+                    ToDoView.viewList(list, appModel);
                 }
             }
             for (let i = 1; i < document.getElementsByClassName("status-col").length; i++) {
+                let appModel = model;
                 document.getElementsByClassName("status-col")[i].onmousedown = function() {
                     if (!list.items[i-1].getStatus().includes("<form>")) {
                         if (list.items[i-1].getStatus() == "complete") {
@@ -109,57 +125,50 @@ export default class ToDoView {
                         }else{
                             list.items[i-1].setStatus("<form><select id = 'status"+i+"'> <option value='incomplete'>incomplete</option><option value='complete'>complete</option></select></form>");
                         }
-                        document.getElementsByClassName("status-col")[i].innerHTML = list.items[i-1].status;
+                        //document.getElementsByClassName("status-col")[i].innerHTML = list.items[i-1].status;
+                        ToDoView.viewList(list, appModel);
                     }
                 }
             }
             for (let i = 1; i < document.getElementsByClassName("status-col").length; i++) {
+                let appModel = model;
                 document.getElementsByClassName("status-col")[i].onchange = function() {
-                    if (document.getElementById("status"+i) != null) {
-                        document.getElementsByClassName("status-col")[i].innerHTML = document.getElementById("status"+i).value;
-                        list.items[i - 1].setStatus(document.getElementsByClassName("status-col")[i].innerHTML);
-                    }else{
-                        list.items[i - 1].setStatus(document.getElementsByClassName("status-col")[i].innerHTML);
-                    }
+                    document.getElementsByClassName("status-col")[i].innerHTML = document.getElementById("status"+i).value;
+                    list.items[i - 1].status = document.getElementsByClassName("status-col")[i].innerHTML;
+                    let transaction = new EditStatus_Transaction(appModel, list, list.items[i-1],document.getElementsByClassName("status-col")[i].innerHTML) ;
+                    appModel.addNewTransaction(transaction);
+                    ToDoView.viewList(list, appModel);
                 }
             }
             for (let i = 1; i < document.getElementsByClassName("list-item-control-up").length; i++) {
+                let appModel = model;
                 document.getElementsByClassName("list-item-control-up")[i].onmousedown = function() {
-                    let temp = list.items[i-1];
-                    list.items[i-1] = list.items[i];
-                    list.items[i] = temp;
-                    let newList = list;
-                    itemsListDiv.innerHTML = "";
-                    /*for (let j = 0; j < list.items.length; j++) {
-                        listItem = list.items[j];
-                        listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                        + "<div class='task-col' contenteditable = 'true'>" + listItem.description + "</div>"
-                                        + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
-                                        + "<div class='status-col'>" + listItem.status + "</div>"
-                                        + "<div class='list-controls-col'>"
-                                        + " <div class='list-item-control-up material-icons'>keyboard_arrow_up</div>"
-                                        + " <div class='list-item-control-down material-icons'>keyboard_arrow_down</div>"
-                                        + " <div class='list-item-control-close material-icons'>close</div>"
-                                        + " <div class='list-item-control'></div>"
-                                        + " <div class='list-item-control'></div>"
-                                        + "</div>";
-                        itemsListDiv.innerHTML += listItemElement;
-                    }*/
-                    ToDoView.viewList(list);
+                    // let temp = list.items[i-1];
+                    // list.items[i-1] = list.items[i];
+                    // list.items[i] = temp;
+                    let transaction = new MoveUpItem_Transaction(appModel, list, i);
+                    appModel.addNewTransaction(transaction);
+                    ToDoView.viewList(list, model);
                 }
             }
             for (let i = 0; i < document.getElementsByClassName("list-item-control-down").length - 1; i++) {
+                let appModel = model;
                 document.getElementsByClassName("list-item-control-down")[i].onmousedown = function() {
-                    let temp = list.items[i+1];
-                    list.items[i+1] = list.items[i];
-                    list.items[i] = temp;
-                    ToDoView.viewList(list);
+                    // let temp = list.items[i+1];
+                    // list.items[i+1] = list.items[i];
+                    // list.items[i] = temp;
+                    let transaction = new MoveDownItem_Transaction(appModel, list, i);
+                    appModel.addNewTransaction(transaction);
+                    ToDoView.viewList(list, appModel);
                 }
             }
             for (let i = 0; i < document.getElementsByClassName("list-item-control-close").length; i++) {
+                let appModel = model
                 document.getElementsByClassName("list-item-control-close")[i].onmousedown = function() {
-                    list.items.splice(i, 1);
-                    ToDoView.viewList(list);
+                    //list.items.splice(i, 1);
+                    let transaction = new CloseItem_Transaction(appModel, list, i);
+                    appModel.addNewTransaction(transaction);
+                    ToDoView.viewList(list, appModel);
                 }
             }
             for (let i = 1; i < document.getElementsByClassName("list-item-control-up").length; i++) {
