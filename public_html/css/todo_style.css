@@ -44,6 +44,11 @@
     color: rgb(255,200,25);
     font-weight: bold;
     font-size: 18pt;
+    padding-left: 3pt;
+}
+
+#add-list-button {
+    color: rgb(255,200,25);
 }
 
 #left-sidebar-header {
@@ -62,13 +67,17 @@
     border-bottom: solid;
 }
 
+.list-item-card:hover {
+    background-color: rgb(170, 173, 175);
+}
+
 .todo_button {
     cursor:pointer;
     background-color: var(--swatch-complement);
 }
 
 .todo_button:hover {
-    background-color: var(--swatch-contrast);
+    background-color: rgb(170, 173, 175);
 }
 
 .modal {

@@ -3,7 +3,7 @@
     width:100%;
     height:100%;
     display: grid;
-    padding: 1px;
+    padding: 0px;
     grid-template-rows: 5% 95%;
     grid-template-columns: 12% 88%;
 }
@@ -12,12 +12,13 @@
     grid-column: 1 / span 2;
     grid-row: 1 / span 1;
     margin-bottom: 5pt;
+    font-size: 18pt;
 }
 
 #left-sidebar {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
-    font-size: 12pt;
+    font-size: 14pt;
     text-align: center;
 }
 
@@ -25,6 +26,8 @@
     display: flex;
     grid-template-columns: 60% 40%;
     font-size: 16pt;
+    text-align: center;
+    padding-left: 5pt;
 }
 
 #left-sidebar-header-text {
@@ -32,7 +35,7 @@
 }
 
 #left-sidebar-controls {
-    text-align: right;
+    text-align: center;
 }
 
 #workspace {
@@ -44,11 +47,24 @@
 }
 
 #todo-list-items-div{
-    display: flex;
+    display: block;
     flex-direction: column;
 }
 
+.todo_button{
+    padding-bottom: 8pt;
+    padding-top:8pt;
+}
+
 .list-item-card {
+    height: 24%;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 8pt;
+    padding-top:8pt;
+}
+
+.list-item-head {
     height: 4%;
     display: flex;
     flex-direction: row;
@@ -72,8 +88,17 @@
     flex-direction: row;
 }
 
+#header-text {
+    padding-top: 8pt;
+    padding-right: 4pt;
+}
+
 .list-item-control {
     width: 20%;
+    margin: auto;
+    text-align: center;
+    padding-top: 3pt;
+    padding-bottom: 2pt;
 }
 
 .list-item-control-up {
